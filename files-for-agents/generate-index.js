@@ -43,12 +43,12 @@ function generateHTML() {
       .map(file => `            <li><a href="${folder}/${file}">${file}</a></li>`)
       .join('\n');
     
-    foldersHTML += `    <div class="folder">
-        <h2>📁 ${folder}</h2>
+    foldersHTML += `    <details class="folder">
+        <summary><h2>📁 ${folder}</h2></summary>
         <ul>
 ${filesList}
         </ul>
-    </div>
+    </details>
     
 `;
   });
@@ -83,6 +83,21 @@ ${filesList}
         .folder h2 {
             margin-top: 0;
             color: #2c3e50;
+        }
+        .folder summary {
+            cursor: pointer;
+            list-style: none;
+        }
+        .folder summary::-webkit-details-marker {
+            display: none;
+        }
+        .folder summary::before {
+            content: "▶ ";
+            font-size: 0.75em;
+            color: #3498db;
+        }
+        .folder[open] summary::before {
+            content: "▼ ";
         }
         ul {
             list-style: none;

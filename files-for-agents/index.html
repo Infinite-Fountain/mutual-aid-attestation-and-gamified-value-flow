@@ -29,6 +29,21 @@
             margin-top: 0;
             color: #2c3e50;
         }
+        .folder summary {
+            cursor: pointer;
+            list-style: none;
+        }
+        .folder summary::-webkit-details-marker {
+            display: none;
+        }
+        .folder summary::before {
+            content: "▶ ";
+            font-size: 0.75em;
+            color: #3498db;
+        }
+        .folder[open] summary::before {
+            content: "▼ ";
+        }
         ul {
             list-style: none;
             padding: 0;
@@ -61,8 +76,8 @@
     <h1>Files for Agents</h1>
     <p>This directory contains prompts and files designed to be discoverable and readable by AI agents.</p>
     
-    <div class="folder">
-        <h2>📁 5 learn build spark</h2>
+    <details class="folder">
+        <summary><h2>📁 5 learn build spark</h2></summary>
         <ul>
             <li><a href="5 learn build spark/round 1 proposals.md">round 1 proposals.md</a></li>
             <li><a href="5 learn build spark/round-1-prompt-persona-10.md">round-1-prompt-persona-10.md</a></li>
@@ -72,17 +87,17 @@
             <li><a href="5 learn build spark/round-1-prompt-persona-7.md">round-1-prompt-persona-7.md</a></li>
             <li><a href="5 learn build spark/round-1-prompt-persona-9.md">round-1-prompt-persona-9.md</a></li>
         </ul>
-    </div>
+    </details>
     
-    <div class="folder">
-        <h2>📁 cowork-testing</h2>
+    <details class="folder">
+        <summary><h2>📁 cowork-testing</h2></summary>
         <ul>
             <li><a href="cowork-testing/round-1-prompt-persona-13.md">round-1-prompt-persona-13.md</a></li>
             <li><a href="cowork-testing/round-1-prompt-persona-5.md">round-1-prompt-persona-5.md</a></li>
             <li><a href="cowork-testing/round-1-prompt-persona-7.md">round-1-prompt-persona-7.md</a></li>
             <li><a href="cowork-testing/round-1-prompt-persona-a1.md">round-1-prompt-persona-a1.md</a></li>
         </ul>
-    </div>
+    </details>
     
     <div class="meta">
         <p><strong>For agents:</strong> All files in this directory are publicly accessible. You can read any markdown file directly by following the links above or accessing the raw file URLs.</p>
