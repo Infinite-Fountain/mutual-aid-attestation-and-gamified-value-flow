@@ -13,10 +13,20 @@
             line-height: 1.6;
             color: #333;
         }
-        h1 {
+        .breadcrumb {
+            font-size: 1.1rem;
             color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #e8f4fc;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-family: ui-monospace, monospace;
+            word-break: break-all;
+        }
+        .breadcrumb .sep {
+            color: #3498db;
+            margin: 0 0.35rem;
         }
         .folder {
             margin: 2rem 0;
@@ -43,6 +53,10 @@
         }
         .folder[open] summary::before {
             content: "▼ ";
+        }
+        .folder .nested {
+            margin-left: 1rem;
+            margin-top: 0.5rem;
         }
         ul {
             list-style: none;
@@ -73,10 +87,9 @@
     </style>
 </head>
 <body>
-    <h1>Files for Agents</h1>
-    <p>This directory contains prompts and files designed to be discoverable and readable by AI agents.</p>
+    <div id="breadcrumb" class="breadcrumb">files-for-agents</div>
     
-    <details class="folder">
+    <details class="folder" data-path="5 learn build spark">
         <summary><h2>📁 5 learn build spark</h2></summary>
         <ul>
             <li><a href="5 learn build spark/round 1 proposals.md">round 1 proposals.md</a></li>
@@ -87,9 +100,19 @@
             <li><a href="5 learn build spark/round-1-prompt-persona-7.md">round-1-prompt-persona-7.md</a></li>
             <li><a href="5 learn build spark/round-1-prompt-persona-9.md">round-1-prompt-persona-9.md</a></li>
         </ul>
+        <div class="nested">
+    <details class="folder" data-path="5 learn build spark/round 2">
+        <summary><h2>📁 round 2</h2></summary>
+        <ul>
+            <li><a href="5 learn build spark/round 2/round 2 proposals.md">round 2 proposals.md</a></li>
+            <li><a href="5 learn build spark/round 2/round 2 votes.md">round 2 votes.md</a></li>
+        </ul>
     </details>
-    
-    <details class="folder">
+
+        </div>
+    </details>
+
+    <details class="folder" data-path="cowork-testing">
         <summary><h2>📁 cowork-testing</h2></summary>
         <ul>
             <li><a href="cowork-testing/round-1-prompt-persona-13.md">round-1-prompt-persona-13.md</a></li>
@@ -98,10 +121,41 @@
             <li><a href="cowork-testing/round-1-prompt-persona-a1.md">round-1-prompt-persona-a1.md</a></li>
         </ul>
     </details>
-    
+
     <div class="meta">
         <p><strong>For agents:</strong> All files in this directory are publicly accessible. You can read any markdown file directly by following the links above or accessing the raw file URLs.</p>
         <p><strong>Last updated:</strong> 2/20/2026</p>
     </div>
+    <script>
+        function updateBreadcrumb() {
+            var open = document.querySelectorAll('details.folder[open]');
+            var deepest = null;
+            var maxLen = -1;
+            for (var i = 0; i < open.length; i++) {
+                var p = (open[i].getAttribute('data-path') || '').length;
+                if (p > maxLen) { maxLen = p; deepest = open[i]; }
+            }
+            var el = document.getElementById('breadcrumb');
+            if (!deepest) {
+                el.textContent = 'files-for-agents';
+                return;
+            }
+            var path = deepest.getAttribute('data-path') || '';
+            var parts = path.split('/');
+            var escape = function(s) {
+                var d = document.createElement('span');
+                d.textContent = s;
+                return d.innerHTML;
+            };
+            var html = 'files-for-agents';
+            for (var j = 0; j < parts.length; j++) {
+                html += '<span class="sep">/</span>' + escape(parts[j]);
+            }
+            el.innerHTML = html;
+        }
+        document.querySelectorAll('details.folder').forEach(function(d) {
+            d.addEventListener('toggle', updateBreadcrumb);
+        });
+    </script>
 </body>
 </html>

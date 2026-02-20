@@ -6,52 +6,89 @@ const path = require('path');
 const FILES_FOR_AGENTS_DIR = __dirname;
 const INDEX_FILE = path.join(FILES_FOR_AGENTS_DIR, 'index.html');
 
-// Get all folders in files-for-agents (excluding hidden folders and index.html)
-function getFolders() {
-  const items = fs.readdirSync(FILES_FOR_AGENTS_DIR, { withFileTypes: true });
-  return items
-    .filter(item => item.isDirectory() && !item.name.startsWith('.'))
-    .map(item => item.name)
+// Build a tree of folders and .md files (recursive: includes subfolders)
+function buildTree(dir) {
+  const items = fs.readdirSync(dir, { withFileTypes: true });
+  const node = { files: [], children: {} };
+
+  const dirs = items
+    .filter(i => i.isDirectory() && !i.name.startsWith('.'))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const files = items
+    .filter(i => i.isFile() && i.name.endsWith('.md'))
+    .map(i => i.name)
     .sort();
+
+  node.files = files;
+
+  for (const d of dirs) {
+    const fullPath = path.join(dir, d.name);
+    node.children[d.name] = buildTree(fullPath);
+  }
+
+  return node;
 }
 
-// Get all markdown files in a folder
-function getMarkdownFiles(folderName) {
-  const folderPath = path.join(FILES_FOR_AGENTS_DIR, folderName);
-  try {
-    const items = fs.readdirSync(folderPath, { withFileTypes: true });
-    return items
-      .filter(item => item.isFile() && item.name.endsWith('.md'))
-      .map(item => item.name)
-      .sort();
-  } catch (err) {
-    return [];
+// Get root tree (only top-level folders under files-for-agents)
+function getRootTree() {
+  const items = fs.readdirSync(FILES_FOR_AGENTS_DIR, { withFileTypes: true });
+  const root = { files: [], children: {} };
+
+  const dirs = items
+    .filter(i => i.isDirectory() && !i.name.startsWith('.') && i.name !== 'node_modules')
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  for (const d of dirs) {
+    const folderPath = path.join(FILES_FOR_AGENTS_DIR, d.name);
+    root.children[d.name] = buildTree(folderPath);
   }
+
+  return root;
+}
+
+// Count total folders in tree (for logging)
+function countFolders(node) {
+  let n = Object.keys(node.children).length;
+  for (const child of Object.values(node.children)) {
+    n += countFolders(child);
+  }
+  return n;
+}
+
+// Render one level of the tree as nested <details> (pathPrefix = relative path from files-for-agents)
+function renderNode(node, pathPrefix) {
+  const entries = Object.entries(node.children).sort((a, b) => a[0].localeCompare(b[0]));
+  let html = '';
+
+  for (const [name, child] of entries) {
+    const prefix = pathPrefix ? pathPrefix + '/' + name : name;
+    const hasFiles = child.files.length > 0;
+    const hasChildren = Object.keys(child.children).length > 0;
+    if (!hasFiles && !hasChildren) continue;
+
+    const filesList = child.files
+      .map(f => `            <li><a href="${prefix}/${f}">${f}</a></li>`)
+      .join('\n');
+    const filesBlock = hasFiles
+      ? `        <ul>\n${filesList}\n        </ul>\n`
+      : '';
+    const nested = renderNode(child, prefix);
+    const nestedBlock = nested ? `        <div class="nested">\n${nested}        </div>\n` : '';
+
+    html += `    <details class="folder" data-path="${prefix.replace(/"/g, '&quot;')}">
+        <summary><h2>📁 ${name}</h2></summary>
+${filesBlock}${nestedBlock}    </details>
+
+`;
+  }
+
+  return html;
 }
 
 // Generate HTML
 function generateHTML() {
-  const folders = getFolders();
-  
-  let foldersHTML = '';
-  
-  folders.forEach(folder => {
-    const files = getMarkdownFiles(folder);
-    if (files.length === 0) return; // Skip empty folders
-    
-    const filesList = files
-      .map(file => `            <li><a href="${folder}/${file}">${file}</a></li>`)
-      .join('\n');
-    
-    foldersHTML += `    <details class="folder">
-        <summary><h2>📁 ${folder}</h2></summary>
-        <ul>
-${filesList}
-        </ul>
-    </details>
-    
-`;
-  });
+  const root = getRootTree();
+  const foldersHTML = renderNode(root, '');
   
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -68,10 +105,20 @@ ${filesList}
             line-height: 1.6;
             color: #333;
         }
-        h1 {
+        .breadcrumb {
+            font-size: 1.1rem;
             color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #e8f4fc;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-family: ui-monospace, monospace;
+            word-break: break-all;
+        }
+        .breadcrumb .sep {
+            color: #3498db;
+            margin: 0 0.35rem;
         }
         .folder {
             margin: 2rem 0;
@@ -98,6 +145,10 @@ ${filesList}
         }
         .folder[open] summary::before {
             content: "▼ ";
+        }
+        .folder .nested {
+            margin-left: 1rem;
+            margin-top: 0.5rem;
         }
         ul {
             list-style: none;
@@ -128,13 +179,43 @@ ${filesList}
     </style>
 </head>
 <body>
-    <h1>Files for Agents</h1>
-    <p>This directory contains prompts and files designed to be discoverable and readable by AI agents.</p>
+    <div id="breadcrumb" class="breadcrumb">files-for-agents</div>
     
 ${foldersHTML}    <div class="meta">
         <p><strong>For agents:</strong> All files in this directory are publicly accessible. You can read any markdown file directly by following the links above or accessing the raw file URLs.</p>
         <p><strong>Last updated:</strong> ${new Date().toLocaleDateString()}</p>
     </div>
+    <script>
+        function updateBreadcrumb() {
+            var open = document.querySelectorAll('details.folder[open]');
+            var deepest = null;
+            var maxLen = -1;
+            for (var i = 0; i < open.length; i++) {
+                var p = (open[i].getAttribute('data-path') || '').length;
+                if (p > maxLen) { maxLen = p; deepest = open[i]; }
+            }
+            var el = document.getElementById('breadcrumb');
+            if (!deepest) {
+                el.textContent = 'files-for-agents';
+                return;
+            }
+            var path = deepest.getAttribute('data-path') || '';
+            var parts = path.split('/');
+            var escape = function(s) {
+                var d = document.createElement('span');
+                d.textContent = s;
+                return d.innerHTML;
+            };
+            var html = 'files-for-agents';
+            for (var j = 0; j < parts.length; j++) {
+                html += '<span class="sep">/</span>' + escape(parts[j]);
+            }
+            el.innerHTML = html;
+        }
+        document.querySelectorAll('details.folder').forEach(function(d) {
+            d.addEventListener('toggle', updateBreadcrumb);
+        });
+    </script>
 </body>
 </html>`;
 
@@ -146,7 +227,7 @@ try {
   const html = generateHTML();
   fs.writeFileSync(INDEX_FILE, html, 'utf8');
   console.log('✅ index.html generated successfully!');
-  console.log(`   Found ${getFolders().length} folder(s)`);
+  console.log(`   Found ${countFolders(getRootTree())} folder(s) (including nested)`);
 } catch (err) {
   console.error('❌ Error generating index.html:', err.message);
   process.exit(1);
