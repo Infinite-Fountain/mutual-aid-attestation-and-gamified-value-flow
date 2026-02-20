@@ -55,6 +55,11 @@ function countFolders(node) {
   return n;
 }
 
+// Slug from path for use in id/hash (e.g. "5 learn build spark/round 2" -> "5-learn-build-spark-round-2")
+function pathToSlug(p) {
+  return p.replace(/\//g, '-').replace(/\s+/g, '-');
+}
+
 // Render one level of the tree as nested <details> (pathPrefix = relative path from files-for-agents)
 function renderNode(node, pathPrefix) {
   const entries = Object.entries(node.children).sort((a, b) => a[0].localeCompare(b[0]));
@@ -62,12 +67,13 @@ function renderNode(node, pathPrefix) {
 
   for (const [name, child] of entries) {
     const prefix = pathPrefix ? pathPrefix + '/' + name : name;
+    const slug = pathToSlug(prefix);
     const hasFiles = child.files.length > 0;
     const hasChildren = Object.keys(child.children).length > 0;
     if (!hasFiles && !hasChildren) continue;
 
     const filesList = child.files
-      .map(f => `            <li><a href="${prefix}/${f}">${f}</a></li>`)
+      .map(f => `            <li><a href="${prefix}/${f}" target="_blank">${f}</a></li>`)
       .join('\n');
     const filesBlock = hasFiles
       ? `        <ul>\n${filesList}\n        </ul>\n`
@@ -75,7 +81,7 @@ function renderNode(node, pathPrefix) {
     const nested = renderNode(child, prefix);
     const nestedBlock = nested ? `        <div class="nested">\n${nested}        </div>\n` : '';
 
-    html += `    <details class="folder" data-path="${prefix.replace(/"/g, '&quot;')}">
+    html += `    <details class="folder" id="folder-${slug}" data-path="${prefix.replace(/"/g, '&quot;')}">
         <summary><h2>📁 ${name}</h2></summary>
 ${filesBlock}${nestedBlock}    </details>
 
@@ -119,6 +125,14 @@ function generateHTML() {
         .breadcrumb .sep {
             color: #3498db;
             margin: 0 0.35rem;
+        }
+        .breadcrumb a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: #3498db;
         }
         .folder {
             margin: 2rem 0;
@@ -186,6 +200,9 @@ ${foldersHTML}    <div class="meta">
         <p><strong>Last updated:</strong> ${new Date().toLocaleDateString()}</p>
     </div>
     <script>
+        function pathToSlug(p) {
+            return p.replace(/\\//g, '-').replace(/\\s+/g, '-');
+        }
         function updateBreadcrumb() {
             var open = document.querySelectorAll('details.folder[open]');
             var deepest = null;
@@ -195,26 +212,71 @@ ${foldersHTML}    <div class="meta">
                 if (p > maxLen) { maxLen = p; deepest = open[i]; }
             }
             var el = document.getElementById('breadcrumb');
-            if (!deepest) {
-                el.textContent = 'files-for-agents';
-                return;
-            }
-            var path = deepest.getAttribute('data-path') || '';
-            var parts = path.split('/');
             var escape = function(s) {
                 var d = document.createElement('span');
                 d.textContent = s;
                 return d.innerHTML;
             };
-            var html = 'files-for-agents';
+            if (!deepest) {
+                el.innerHTML = '<a href="#" class="crumb-link" data-action="root">files-for-agents</a>';
+                return;
+            }
+            var path = deepest.getAttribute('data-path') || '';
+            var parts = path.split('/');
+            var html = '<a href="#" class="crumb-link" data-action="root">files-for-agents</a>';
             for (var j = 0; j < parts.length; j++) {
-                html += '<span class="sep">/</span>' + escape(parts[j]);
+                var segPath = parts.slice(0, j + 1).join('/');
+                var slug = pathToSlug(segPath);
+                html += '<span class="sep">/</span><a href="#folder-' + slug + '" class="crumb-link" data-folder-id="folder-' + slug + '">' + escape(parts[j]) + '</a>';
             }
             el.innerHTML = html;
+            attachBreadcrumbClicks();
+        }
+        function openOnlyThisAndAncestors(targetDetails) {
+            var keepOpen = [];
+            var el = targetDetails;
+            while (el && el !== document.body) {
+                if (el.classList && el.classList.contains('folder') && el.tagName === 'DETAILS') {
+                    keepOpen.push(el);
+                }
+                el = el.parentElement;
+            }
+            document.querySelectorAll('details.folder').forEach(function(d) {
+                if (keepOpen.indexOf(d) === -1) {
+                    d.removeAttribute('open');
+                } else {
+                    d.setAttribute('open', '');
+                }
+            });
+            targetDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        function attachBreadcrumbClicks() {
+            var el = document.getElementById('breadcrumb');
+            el.querySelectorAll('.crumb-link').forEach(function(a) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (a.getAttribute('data-action') === 'root') {
+                        document.querySelectorAll('details.folder').forEach(function(d) { d.removeAttribute('open'); });
+                        window.scrollTo(0, 0);
+                        return;
+                    }
+                    var id = a.getAttribute('data-folder-id');
+                    var details = document.getElementById(id);
+                    if (details) {
+                        openOnlyThisAndAncestors(details);
+                    }
+                });
+            });
         }
         document.querySelectorAll('details.folder').forEach(function(d) {
-            d.addEventListener('toggle', updateBreadcrumb);
+            d.addEventListener('toggle', function() {
+                if (d.open) {
+                    openOnlyThisAndAncestors(d);
+                }
+                updateBreadcrumb();
+            });
         });
+        updateBreadcrumb();
     </script>
 </body>
 </html>`;

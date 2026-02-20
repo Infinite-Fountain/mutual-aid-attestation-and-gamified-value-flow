@@ -28,6 +28,14 @@
             color: #3498db;
             margin: 0 0.35rem;
         }
+        .breadcrumb a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: #3498db;
+        }
         .folder {
             margin: 2rem 0;
             padding: 1rem;
@@ -89,36 +97,36 @@
 <body>
     <div id="breadcrumb" class="breadcrumb">files-for-agents</div>
     
-    <details class="folder" data-path="5 learn build spark">
+    <details class="folder" id="folder-5-learn-build-spark" data-path="5 learn build spark">
         <summary><h2>📁 5 learn build spark</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/round 1 proposals.md">round 1 proposals.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-10.md">round-1-prompt-persona-10.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-13.md">round-1-prompt-persona-13.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-3.md">round-1-prompt-persona-3.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-5.md">round-1-prompt-persona-5.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-7.md">round-1-prompt-persona-7.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-9.md">round-1-prompt-persona-9.md</a></li>
+            <li><a href="5 learn build spark/round 1 proposals.md" target="_blank">round 1 proposals.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-10.md" target="_blank">round-1-prompt-persona-10.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-3.md" target="_blank">round-1-prompt-persona-3.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a></li>
+            <li><a href="5 learn build spark/round-1-prompt-persona-9.md" target="_blank">round-1-prompt-persona-9.md</a></li>
         </ul>
         <div class="nested">
-    <details class="folder" data-path="5 learn build spark/round 2">
+    <details class="folder" id="folder-5-learn-build-spark-round-2" data-path="5 learn build spark/round 2">
         <summary><h2>📁 round 2</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/round 2/round 2 proposals.md">round 2 proposals.md</a></li>
-            <li><a href="5 learn build spark/round 2/round 2 votes.md">round 2 votes.md</a></li>
+            <li><a href="5 learn build spark/round 2/round 2 proposals.md" target="_blank">round 2 proposals.md</a></li>
+            <li><a href="5 learn build spark/round 2/round 2 votes.md" target="_blank">round 2 votes.md</a></li>
         </ul>
     </details>
 
         </div>
     </details>
 
-    <details class="folder" data-path="cowork-testing">
+    <details class="folder" id="folder-cowork-testing" data-path="cowork-testing">
         <summary><h2>📁 cowork-testing</h2></summary>
         <ul>
-            <li><a href="cowork-testing/round-1-prompt-persona-13.md">round-1-prompt-persona-13.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-5.md">round-1-prompt-persona-5.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-7.md">round-1-prompt-persona-7.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-a1.md">round-1-prompt-persona-a1.md</a></li>
+            <li><a href="cowork-testing/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a></li>
+            <li><a href="cowork-testing/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a></li>
+            <li><a href="cowork-testing/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a></li>
+            <li><a href="cowork-testing/round-1-prompt-persona-a1.md" target="_blank">round-1-prompt-persona-a1.md</a></li>
         </ul>
     </details>
 
@@ -127,6 +135,9 @@
         <p><strong>Last updated:</strong> 2/20/2026</p>
     </div>
     <script>
+        function pathToSlug(p) {
+            return p.replace(/\//g, '-').replace(/\s+/g, '-');
+        }
         function updateBreadcrumb() {
             var open = document.querySelectorAll('details.folder[open]');
             var deepest = null;
@@ -136,26 +147,71 @@
                 if (p > maxLen) { maxLen = p; deepest = open[i]; }
             }
             var el = document.getElementById('breadcrumb');
-            if (!deepest) {
-                el.textContent = 'files-for-agents';
-                return;
-            }
-            var path = deepest.getAttribute('data-path') || '';
-            var parts = path.split('/');
             var escape = function(s) {
                 var d = document.createElement('span');
                 d.textContent = s;
                 return d.innerHTML;
             };
-            var html = 'files-for-agents';
+            if (!deepest) {
+                el.innerHTML = '<a href="#" class="crumb-link" data-action="root">files-for-agents</a>';
+                return;
+            }
+            var path = deepest.getAttribute('data-path') || '';
+            var parts = path.split('/');
+            var html = '<a href="#" class="crumb-link" data-action="root">files-for-agents</a>';
             for (var j = 0; j < parts.length; j++) {
-                html += '<span class="sep">/</span>' + escape(parts[j]);
+                var segPath = parts.slice(0, j + 1).join('/');
+                var slug = pathToSlug(segPath);
+                html += '<span class="sep">/</span><a href="#folder-' + slug + '" class="crumb-link" data-folder-id="folder-' + slug + '">' + escape(parts[j]) + '</a>';
             }
             el.innerHTML = html;
+            attachBreadcrumbClicks();
+        }
+        function openOnlyThisAndAncestors(targetDetails) {
+            var keepOpen = [];
+            var el = targetDetails;
+            while (el && el !== document.body) {
+                if (el.classList && el.classList.contains('folder') && el.tagName === 'DETAILS') {
+                    keepOpen.push(el);
+                }
+                el = el.parentElement;
+            }
+            document.querySelectorAll('details.folder').forEach(function(d) {
+                if (keepOpen.indexOf(d) === -1) {
+                    d.removeAttribute('open');
+                } else {
+                    d.setAttribute('open', '');
+                }
+            });
+            targetDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        function attachBreadcrumbClicks() {
+            var el = document.getElementById('breadcrumb');
+            el.querySelectorAll('.crumb-link').forEach(function(a) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (a.getAttribute('data-action') === 'root') {
+                        document.querySelectorAll('details.folder').forEach(function(d) { d.removeAttribute('open'); });
+                        window.scrollTo(0, 0);
+                        return;
+                    }
+                    var id = a.getAttribute('data-folder-id');
+                    var details = document.getElementById(id);
+                    if (details) {
+                        openOnlyThisAndAncestors(details);
+                    }
+                });
+            });
         }
         document.querySelectorAll('details.folder').forEach(function(d) {
-            d.addEventListener('toggle', updateBreadcrumb);
+            d.addEventListener('toggle', function() {
+                if (d.open) {
+                    openOnlyThisAndAncestors(d);
+                }
+                updateBreadcrumb();
+            });
         });
+        updateBreadcrumb();
     </script>
 </body>
 </html>
