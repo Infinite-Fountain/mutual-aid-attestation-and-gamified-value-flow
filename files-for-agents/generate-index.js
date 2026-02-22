@@ -73,7 +73,11 @@ function renderNode(node, pathPrefix) {
     if (!hasFiles && !hasChildren) continue;
 
     const filesList = child.files
-      .map(f => `            <li><a href="${prefix}/${f}" target="_blank">${f}</a></li>`)
+      .map(f => {
+        const href = prefix + '/' + f;
+        const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `            <li class="file-item"><a href="${esc(href)}" target="_blank">${esc(f)}</a> <button class="copy-btn" data-href="${esc(href)}" title="Copy file content">📋 Copy</button></li>`;
+      })
       .join('\n');
     const filesBlock = hasFiles
       ? `        <ul>\n${filesList}\n        </ul>\n`
@@ -190,6 +194,29 @@ function generateHTML() {
             padding-top: 1rem;
             border-top: 1px solid #ddd;
         }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .copy-btn {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border: 1px solid #3498db;
+            background: #fff;
+            color: #3498db;
+            border-radius: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .copy-btn:hover {
+            background: #e3f2fd;
+        }
+        .copy-btn.copied {
+            background: #27ae60;
+            border-color: #27ae60;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -277,6 +304,33 @@ ${foldersHTML}    <div class="meta">
             });
         });
         updateBreadcrumb();
+
+        document.querySelectorAll('.copy-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var href = btn.getAttribute('data-href');
+                if (!href) return;
+                var label = btn.textContent;
+                btn.textContent = '...';
+                btn.disabled = true;
+                fetch(href).then(function(r) { return r.text(); }).then(function(text) {
+                    return navigator.clipboard.writeText(text);
+                }).then(function() {
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(function() {
+                        btn.textContent = label;
+                        btn.classList.remove('copied');
+                        btn.disabled = false;
+                    }, 1500);
+                }).catch(function() {
+                    btn.textContent = 'Error';
+                    setTimeout(function() {
+                        btn.textContent = label;
+                        btn.disabled = false;
+                    }, 1500);
+                });
+            });
+        });
     </script>
 </body>
 </html>`;

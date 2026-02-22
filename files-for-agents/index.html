@@ -92,6 +92,29 @@
             padding-top: 1rem;
             border-top: 1px solid #ddd;
         }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .copy-btn {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border: 1px solid #3498db;
+            background: #fff;
+            color: #3498db;
+            border-radius: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .copy-btn:hover {
+            background: #e3f2fd;
+        }
+        .copy-btn.copied {
+            background: #27ae60;
+            border-color: #27ae60;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -100,43 +123,43 @@
     <details class="folder" id="folder-5-learn-build-spark" data-path="5 learn build spark">
         <summary><h2>📁 5 learn build spark</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/round 1 proposals.md" target="_blank">round 1 proposals.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-10.md" target="_blank">round-1-prompt-persona-10.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-3.md" target="_blank">round-1-prompt-persona-3.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a></li>
-            <li><a href="5 learn build spark/round-1-prompt-persona-9.md" target="_blank">round-1-prompt-persona-9.md</a></li>
+            <li class="file-item"><a href="5 learn build spark/round 1 proposals.md" target="_blank">round 1 proposals.md</a> <button class="copy-btn" data-href="5 learn build spark/round 1 proposals.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-10.md" target="_blank">round-1-prompt-persona-10.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-10.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-13.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-3.md" target="_blank">round-1-prompt-persona-3.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-3.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-5.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-7.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round-1-prompt-persona-9.md" target="_blank">round-1-prompt-persona-9.md</a> <button class="copy-btn" data-href="5 learn build spark/round-1-prompt-persona-9.md" title="Copy file content">📋 Copy</button></li>
         </ul>
         <div class="nested">
     <details class="folder" id="folder-5-learn-build-spark-bounties-intro" data-path="5 learn build spark/bounties intro">
         <summary><h2>📁 bounties intro</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/bounties intro/bounties intro persona 13.md" target="_blank">bounties intro persona 13.md</a></li>
-            <li><a href="5 learn build spark/bounties intro/bounties intro persona 14.md" target="_blank">bounties intro persona 14.md</a></li>
-            <li><a href="5 learn build spark/bounties intro/bounties intro persona 3.md" target="_blank">bounties intro persona 3.md</a></li>
-            <li><a href="5 learn build spark/bounties intro/bounties intro persona 5.md" target="_blank">bounties intro persona 5.md</a></li>
-            <li><a href="5 learn build spark/bounties intro/bounties intro persona 7.md" target="_blank">bounties intro persona 7.md</a></li>
+            <li class="file-item"><a href="5 learn build spark/bounties intro/bounties intro persona 13.md" target="_blank">bounties intro persona 13.md</a> <button class="copy-btn" data-href="5 learn build spark/bounties intro/bounties intro persona 13.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/bounties intro/bounties intro persona 14.md" target="_blank">bounties intro persona 14.md</a> <button class="copy-btn" data-href="5 learn build spark/bounties intro/bounties intro persona 14.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/bounties intro/bounties intro persona 3.md" target="_blank">bounties intro persona 3.md</a> <button class="copy-btn" data-href="5 learn build spark/bounties intro/bounties intro persona 3.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/bounties intro/bounties intro persona 5.md" target="_blank">bounties intro persona 5.md</a> <button class="copy-btn" data-href="5 learn build spark/bounties intro/bounties intro persona 5.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/bounties intro/bounties intro persona 7.md" target="_blank">bounties intro persona 7.md</a> <button class="copy-btn" data-href="5 learn build spark/bounties intro/bounties intro persona 7.md" title="Copy file content">📋 Copy</button></li>
         </ul>
     </details>
 
     <details class="folder" id="folder-5-learn-build-spark-round-2" data-path="5 learn build spark/round 2">
         <summary><h2>📁 round 2</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/round 2/round 2 proposals.md" target="_blank">round 2 proposals.md</a></li>
-            <li><a href="5 learn build spark/round 2/round 2 votes.md" target="_blank">round 2 votes.md</a></li>
+            <li class="file-item"><a href="5 learn build spark/round 2/round 2 proposals.md" target="_blank">round 2 proposals.md</a> <button class="copy-btn" data-href="5 learn build spark/round 2/round 2 proposals.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 2/round 2 votes.md" target="_blank">round 2 votes.md</a> <button class="copy-btn" data-href="5 learn build spark/round 2/round 2 votes.md" title="Copy file content">📋 Copy</button></li>
         </ul>
     </details>
 
     <details class="folder" id="folder-5-learn-build-spark-round-3" data-path="5 learn build spark/round 3">
         <summary><h2>📁 round 3</h2></summary>
         <ul>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-10.md" target="_blank">round-3-improve popup-persona-10.md</a></li>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-13.md" target="_blank">round-3-improve popup-persona-13.md</a></li>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-3.md" target="_blank">round-3-improve popup-persona-3.md</a></li>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-5.md" target="_blank">round-3-improve popup-persona-5.md</a></li>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-7.md" target="_blank">round-3-improve popup-persona-7.md</a></li>
-            <li><a href="5 learn build spark/round 3/round-3-improve popup-persona-9.md" target="_blank">round-3-improve popup-persona-9.md</a></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-10.md" target="_blank">round-3-improve popup-persona-10.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-10.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-13.md" target="_blank">round-3-improve popup-persona-13.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-13.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-3.md" target="_blank">round-3-improve popup-persona-3.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-3.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-5.md" target="_blank">round-3-improve popup-persona-5.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-5.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-7.md" target="_blank">round-3-improve popup-persona-7.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-7.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="5 learn build spark/round 3/round-3-improve popup-persona-9.md" target="_blank">round-3-improve popup-persona-9.md</a> <button class="copy-btn" data-href="5 learn build spark/round 3/round-3-improve popup-persona-9.md" title="Copy file content">📋 Copy</button></li>
         </ul>
     </details>
 
@@ -146,10 +169,10 @@
     <details class="folder" id="folder-cowork-testing" data-path="cowork-testing">
         <summary><h2>📁 cowork-testing</h2></summary>
         <ul>
-            <li><a href="cowork-testing/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a></li>
-            <li><a href="cowork-testing/round-1-prompt-persona-a1.md" target="_blank">round-1-prompt-persona-a1.md</a></li>
+            <li class="file-item"><a href="cowork-testing/round-1-prompt-persona-13.md" target="_blank">round-1-prompt-persona-13.md</a> <button class="copy-btn" data-href="cowork-testing/round-1-prompt-persona-13.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="cowork-testing/round-1-prompt-persona-5.md" target="_blank">round-1-prompt-persona-5.md</a> <button class="copy-btn" data-href="cowork-testing/round-1-prompt-persona-5.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="cowork-testing/round-1-prompt-persona-7.md" target="_blank">round-1-prompt-persona-7.md</a> <button class="copy-btn" data-href="cowork-testing/round-1-prompt-persona-7.md" title="Copy file content">📋 Copy</button></li>
+            <li class="file-item"><a href="cowork-testing/round-1-prompt-persona-a1.md" target="_blank">round-1-prompt-persona-a1.md</a> <button class="copy-btn" data-href="cowork-testing/round-1-prompt-persona-a1.md" title="Copy file content">📋 Copy</button></li>
         </ul>
     </details>
 
@@ -235,6 +258,33 @@
             });
         });
         updateBreadcrumb();
+
+        document.querySelectorAll('.copy-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var href = btn.getAttribute('data-href');
+                if (!href) return;
+                var label = btn.textContent;
+                btn.textContent = '...';
+                btn.disabled = true;
+                fetch(href).then(function(r) { return r.text(); }).then(function(text) {
+                    return navigator.clipboard.writeText(text);
+                }).then(function() {
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(function() {
+                        btn.textContent = label;
+                        btn.classList.remove('copied');
+                        btn.disabled = false;
+                    }, 1500);
+                }).catch(function() {
+                    btn.textContent = 'Error';
+                    setTimeout(function() {
+                        btn.textContent = label;
+                        btn.disabled = false;
+                    }, 1500);
+                });
+            });
+        });
     </script>
 </body>
 </html>
