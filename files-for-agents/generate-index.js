@@ -29,20 +29,13 @@ function buildTree(dir) {
   return node;
 }
 
-// Get root tree (only top-level folders under files-for-agents)
+// Get root tree: include every folder and subfolder under files-for-agents
 function getRootTree() {
-  const items = fs.readdirSync(FILES_FOR_AGENTS_DIR, { withFileTypes: true });
-  const root = { files: [], children: {} };
-
-  const dirs = items
-    .filter(i => i.isDirectory() && !i.name.startsWith('.') && i.name !== 'node_modules')
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  for (const d of dirs) {
-    const folderPath = path.join(FILES_FOR_AGENTS_DIR, d.name);
-    root.children[d.name] = buildTree(folderPath);
-  }
-
+  const root = buildTree(FILES_FOR_AGENTS_DIR);
+  // Optionally hide some noisy top-level folders
+  ['node_modules'].forEach((name) => {
+    if (root.children[name]) delete root.children[name];
+  });
   return root;
 }
 
