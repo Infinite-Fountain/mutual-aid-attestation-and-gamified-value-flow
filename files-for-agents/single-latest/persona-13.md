@@ -35,9 +35,9 @@ read the "latest script"
 
 # your task
 
-how important (1 to 100) is the introduction to you?
+how important (1 to 100) is the "love and power" section to you?
 why?
-would you be ok if i remove it and start straight away with the "the infinite fountain" section? pros and cons?
+would you be ok if i remove it and place it in a separate page and just add a link to it in this script? pros and cons?
 what do you recommend?
 
 also in general, any improvements you would suggest on the script?
@@ -59,7 +59,20 @@ before you answer, do a quick search online for inspiring storytelling around th
 # full script
 
 
-## introduction
+
+
+## the infinite fountain
+
+We're a social impact startup studio. We fund neighborhood pilots through paid milestones so people can run tiny social impact business experiments in their communities: generate social impact, sell something real, pay real people, and measure what changed.
+
+Every pilot is paid. You get $50 cash per milestone, a cut of any profit your pilot earns, and "Impact Reward Points" that can pay you more over time as the project grows. Our long-term goal is to turn the strongest pilots into social impact startups that sustain themselves through earned income, not grants.
+
+We want to make sure that love is backed by everyday demand. When the business model works, it becomes an infinite fountain.
+
+
+
+# love and power
+
 
 Martin Luther King said it: love without power is sentimental and anemic, power without love is reckless and abusive.
 
@@ -67,7 +80,6 @@ Love without power:
 Nonprofits are doing vital work but living in a state of perpetual crisis
 45% have delayed or canceled initiatives due to funding instability. 
 39% have reduced staff.
-These organizations are vital, but their impact is limited by xxx.
 That’s love without the engine.
 
 Power without love: 
@@ -75,15 +87,7 @@ On the other end of the spectrum are corporate giants, wielding immense power bu
 
 We want to give love an engine, and its participants a share.
 
-## the infinite fountain
 
-We're a social impact startup studio. We fund neighborhood pilots through paid milestones so people can run tiny social impact business experiments in their communities: generate social impact, sell something real, pay real people, and measure what changed.
-
-Our model has three parts: the "Learning Lab", where anyone can study what works; "Neighborhood Pilots", where you run a neighborhood pilot; and the "Infinite Spark", where every result becomes an open blueprint anyone can copy.
-
-Every pilot is paid. You get $50 cash per milestone, a cut of any profit your pilot earns, and "Impact Reward Points" that can pay you more over time as the project grows. Our long-term goal is to turn the strongest pilots into social impact startups that sustain themselves through earned income, not grants.
-
-We want to make sure that love is backed by everyday demand. When the business model works, it becomes an infinite fountain.
 
 
 ## Our model: Learning Lab, Neighborhood Pilots, and Infinite Spark
@@ -217,3 +221,5 @@ The Wisdom Council also oversees the quarterly bonus pool: they set the rubric, 
 ## Join the movement
 
 **Pick a pilot and apply.**
+
+
