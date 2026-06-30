@@ -1,10 +1,12 @@
-# Interoperable Canvas - Impact Cards
-
-> A drag-and-drop canvas for creating verifiable Impact Cards with on-chain expert attestations. Built for public goods projects.
+# mutual-aid-attestation-and-gamified-value-flow
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+our repo name was "interoperable-canvas + impact cards" because the product was a composable studio for arranging milestone blocks on a canvas and publishing them as impact cards: interoperable blocks, serpentine timelines, and a newsroom where co-created project narrative became legible before anything went onchain.
+
+and now it is called "mutual-aid-attestation-and-gamified-value-flow" because the we want to make the full loop real. Members gather and co-create the needs and offerings of a small rotary circle, with one person in the relay chair at a time. Those milestones get attested — expert scores, evidence, and EAS proof on Base — and freeze into impact-receipt nodes on the serpentine timeline. The attested impact then drives a gamified, fully USDC-backed value flow: lanterns and vouchers circulate between members and light up the Source Spring flow report, where every per-second movement of community-USDC is visible proof that care actually moves. 
 
 ## Overview
 
@@ -35,8 +37,8 @@ Impact evidence for public goods projects is scattered across different sources.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-org/interoperable-canvas.git
-   cd interoperable-canvas
+   git clone https://github.com/Infinite-Fountain/mutual-aid-attestation-and-gamified-value-flow.git
+   cd mutual-aid-attestation-and-gamified-value-flow
    ```
 
 2. **Install dependencies**
